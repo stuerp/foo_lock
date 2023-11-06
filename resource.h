@@ -1,0 +1,42 @@
+
+/** $VER: Resource.h (2023.11.06) **/
+
+#pragma once
+
+#define TOSTRING_IMPL(x) #x
+#define TOSTRING(x) TOSTRING_IMPL(x)
+
+/** Component specific **/
+
+#define STR_COMPONENT_NAME          "Pause on lock"
+#define STR_COMPONENT_VERSION       TOSTRING(NUM_FILE_MAJOR) "." TOSTRING(NUM_FILE_MINOR) "." TOSTRING(NUM_FILE_PATCH) "." TOSTRING(NUM_FILE_PRERELEASE)
+#define STR_COMPONENT_BASENAME      "foo_lock"
+#define STR_COMPONENT_FILENAME      STR_COMPONENT_BASENAME ".dll"
+#define STR_COMPONENT_COMPANY_NAME  ""
+#define STR_COMPONENT_COPYRIGHT     "Copyright (c) 2004-2023 Kreisquadratur (2004), Christopher Snowhill (2004-2020), Peter Stuer (2023). All rights reserved."
+#define STR_COMPONENT_COMMENTS      ""
+#define STR_COMPONENT_DESCRIPTION   "Performs a playback action when the workstation is locked or unlocked or the session is disconnected or reconnected."
+
+/** Generic **/
+
+#define STR_COMPANY_NAME        TEXT(STR_COMPONENT_COMPANY_NAME)
+#define STR_INTERNAL_NAME       TEXT(STR_COMPONENT_NAME)
+#define STR_COMMENTS            TEXT(STR_COMPONENT_COMMENTS)
+#define STR_COPYRIGHT           TEXT(STR_COMPONENT_COPYRIGHT)
+
+#define NUM_FILE_MAJOR          0
+#define NUM_FILE_MINOR          8
+#define NUM_FILE_PATCH          1
+#define NUM_FILE_PRERELEASE     0
+
+#define STR_FILE_NAME           TEXT(STR_COMPONENT_FILENAME)
+#define STR_FILE_VERSION        TOSTRING(NUM_FILE_MAJOR) TEXT(".") TOSTRING(NUM_FILE_MINOR) TEXT(".") TOSTRING(NUM_FILE_PATCH) TEXT(".") TOSTRING(NUM_FILE_PRERELEASE)
+#define STR_FILE_DESCRIPTION    TEXT(STR_COMPONENT_DESCRIPTION)
+
+#define NUM_PRODUCT_MAJOR       0
+#define NUM_PRODUCT_MINOR       8
+#define NUM_PRODUCT_PATCH       1
+#define NUM_PRODUCT_PRERELEASE  0
+
+#define STR_PRODUCT_NAME        STR_COMPANY_NAME TEXT(" ") STR_INTERNAL_NAME
+#define STR_PRODUCT_VERSION     TOSTRING(NUM_PRODUCT_MAJOR) TEXT(".") TOSTRING(NUM_PRODUCT_MINOR) TEXT(".") TOSTRING(NUM_PRODUCT_PATCH) TEXT(".") TOSTRING(NUM_PRODUCT_PRERELEASE)
