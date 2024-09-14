@@ -1,5 +1,5 @@
 
-/** $VER: foo_lock.cpp (2023.11.06) **/
+/** $VER: foo_lock.cpp (2024.09.14) **/
 
 #include <CppCoreCheck/Warnings.h>
 
@@ -67,6 +67,9 @@ static bool _IsResuming = false;
 static const WCHAR ClassName[] = L"870AC6B2-D141-46f4-A196-ADCB72B8AE4E";
 static const WCHAR WindowTitle[] = TEXT(STR_COMPONENT_BASENAME) L" Session Notification Listener";
 
+/// <summary>
+/// Implements a listener for session notifications.
+/// </summary>
 class NotificationListener
 {
 public:
@@ -78,6 +81,21 @@ public:
         _IsConnected = true;
     }
 
+    ~NotificationListener()
+    {
+        if (::IsWindow(_hWnd))
+            ::DestroyWindow(_hWnd);
+
+        if (_WindowClass)
+            ::UnregisterClassW(ClassName, _hInstance);
+
+        if (_hWTSAPI)
+            ::FreeLibrary(_hWTSAPI);
+    }
+
+    /// <summary>
+    /// Initializes this instance.
+    /// </summary>
     bool Initialize(HINSTANCE hInstance)
     {
         _hInstance = hInstance;
@@ -114,19 +132,15 @@ public:
 
         _hWnd = ::CreateWindowExW(0, ClassName, WindowTitle, 0, 0, 0, 0, 0, 0, 0, hInstance, this);
 
-        return _hWnd ? (bool) _RegisterSessionNotification(_hWnd, NOTIFY_FOR_THIS_SESSION) : false;
-    }
+        if (_hWnd == NULL)
+            return false;
 
-    ~NotificationListener()
-    {
-        if (::IsWindow(_hWnd))
-            ::DestroyWindow(_hWnd);
+        bool Success = (bool) _RegisterSessionNotification(_hWnd, NOTIFY_FOR_THIS_SESSION);
 
-        if (_WindowClass)
-            ::UnregisterClassW(ClassName, _hInstance);
+        if (!Success)
+            console::print(STR_COMPONENT_BASENAME " failed to register for session notifications.");
 
-        if (_hWTSAPI)
-            ::FreeLibrary(_hWTSAPI);
+        return Success;
     }
 
 private:
@@ -154,12 +168,16 @@ private:
                 {
                     case WTS_SESSION_LOCK:
                     {
+                        console::print(STR_COMPONENT_BASENAME, " is processing a session lock notification.");
+
                         OnLock();
                         break;
                     }
 
                     case WTS_SESSION_UNLOCK:
                     {
+                        console::print(STR_COMPONENT_BASENAME, " is processing a session unlock notification.");
+
                         if (_IsConnected)
                             OnUnlock();
                         break;
@@ -167,6 +185,8 @@ private:
 
                     case WTS_CONSOLE_CONNECT:
                     {
+                        console::print(STR_COMPONENT_BASENAME, " is processing a connection to the console terminal.");
+
                         OnUnlock();
                         _IsConnected = true;
                         break;
@@ -174,6 +194,8 @@ private:
 
                     case WTS_CONSOLE_DISCONNECT:
                     {
+                        console::print(STR_COMPONENT_BASENAME, " is processing a disconnect from the console terminal.");
+
                         _IsConnected = false;
                         break;
                     }

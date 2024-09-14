@@ -6,6 +6,10 @@ when the workstation is locked or unlocked or the session is disconnected or rec
 
 It is based on [foo_lock](https://www.foobar2000.org/components/view/foo_lock) by [kode54](https://www.foobar2000.org/components/author/kode54).
 
+To use it, specify the playback action that should be taken when the session locks or unlocks in the Advanced branch of the Preferences dialog. Look for "foo_lock" under the "Playback" branch.
+
+After doing that you can enable or disable the component using the "Playback / Pause on lock" menuitem.
+
 ## Requirements
 
 * Tested on Microsoft Windows 10 and later.
@@ -30,6 +34,10 @@ Open `foo_lock.sln` with Visual Studio and build the solution.
 To create the component first build the x86 configuration and next the x64 configuration.
 
 ## Change Log
+
+v0.8.1.1, 2024-09-14
+
+* Updated README with instructions on how to use the component.
 
 v0.8.1.0, 2023-11-06
 
